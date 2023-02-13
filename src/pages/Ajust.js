@@ -17,7 +17,7 @@ export default function Ajust() {
                         &#128512;
                     </div>
                     <video autoplay loop controls>
-                        <source src="../assets/video/sample-webcam.mp4" type="video/mp4"/>
+                        <source src="./video/sample-webcam.mp4" type="video/mp4"/>
                     </video>
                 </div>
             </div>

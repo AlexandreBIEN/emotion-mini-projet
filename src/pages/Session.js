@@ -16,7 +16,7 @@ export default function Session() {
                             &#128512;
                         </div>
                         <video autoplay controls>
-                            <source src="../assets/video/alien.mp4" type="video/mp4"/>
+                            <source src="./video/alien.mp4" type="video/mp4"/>
                         </video>
                     </div>
                 </div>
