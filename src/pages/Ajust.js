@@ -1,4 +1,4 @@
-import { FaceDetection, FaceExpressionNet, FaceLandmark68Net, FaceRecognitionNet, tinyFaceDetector } from 'face-api.js';
+// import { FaceDetection, FaceExpressionNet, FaceLandmark68Net, FaceRecognitionNet, tinyFaceDetector } from 'face-api.js';
 import * as faceapi from 'face-api.js';
 import React, { useEffect, useRef } from 'react'
 import Footer from '../components/Footer'
@@ -47,12 +47,12 @@ export default function Ajust() {
             height: 300,
         })
         const resized = faceapi.resizeResults(detections, {
-            height: 300,
             width: 600,
+            height: 300,
         });
         // to draw the detection onto the detected face i.e the box
         faceapi.draw.drawDetections(canvasRef.current, resized);
-        //to analyze and output the current expression by the detected face
+        // to analyze and output the current expression by the detected face
         faceapi.draw.drawFaceExpressions(canvasRef.current, resized);
         }, 100)
     }
@@ -69,7 +69,7 @@ export default function Ajust() {
                         &#128512;
                     </div>
                     <video className='webcam' crossOrigin='anonymous' ref={videoRef} autoPlay></video>
-                    <canvas ref={canvasRef} className='app__canvas webcam' width="940" height="650"/>
+                    <canvas ref={canvasRef} className='app__canvas webcam'/>
                 </div>
             </div>
             <PrimaryBtn text="Suite du parcours" link="/session"/>

@@ -210,13 +210,8 @@ p {
 
 /*# sourceMappingURL=styles.css.map */
 
-
-.webcam {
-  height: 300px;
-  width: auto;
-}
-
 .app__canvas {
   position: absolute;
   top: 100px;
+  left: 0%;
 }
