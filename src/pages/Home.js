@@ -1,5 +1,4 @@
 import React from 'react'
-import '../assets/css/styles.css';
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import PrimaryBtn from '../components/PrimaryBtn';
