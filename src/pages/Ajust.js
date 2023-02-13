@@ -54,7 +54,7 @@ export default function Ajust() {
         faceapi.draw.drawDetections(canvasRef.current, resized);
         // to analyze and output the current expression by the detected face
         faceapi.draw.drawFaceExpressions(canvasRef.current, resized);
-        }, 100)
+        }, 1000)
     }
   return (
     <div className='site-wrapper'>
