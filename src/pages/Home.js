@@ -7,8 +7,8 @@ import PrimaryBtn from '../components/PrimaryBtn';
 export default function Home() {
   return (
     <div className='site-wrapper'>
-      <Header />
-      <main className="site-content">
+        <Header />
+        <main className="site-content">
             <h1>Bienvenue sur Emotion Data</h1>
             <p>Nous vous proposons de découvrir le monde de la data, en participant à une petite expérience qui ne
                 vous prendra que quelques minutes. Vous allez visionner quelques séquences vidéo, durant lesquelles
@@ -17,9 +17,9 @@ export default function Home() {
                 base de
                 données.</p>
             <p>Seules les données de l'état émotionnel sont conservées.<br/><br/></p>
-            <PrimaryBtn text="Commencer l'expérience" link="/Ajust"/>
+            <PrimaryBtn text="Commencer l'expérience" link="/ajust-webcam"/>
         </main>
-      <Footer />
+        <Footer />
     </div>
   )
 }
