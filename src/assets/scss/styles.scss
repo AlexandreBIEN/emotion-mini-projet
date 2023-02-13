@@ -1,0 +1,188 @@
+// -------------------------------------------------------------------------------------------
+// Reset CSS
+// -------------------------------------------------------------------------------------------
+
+@import '../../node_modules/reset-css/sass/reset';
+
+// -------------------------------------------------------------------------------------------
+// Variables
+// -------------------------------------------------------------------------------------------
+
+@import url("https://use.typekit.net/nbl1plp.css"); /* Insertion des polices adobe font */
+
+$lamanu-primary-color: #33058d ;
+$lamanu-secondary-color: #00a3e1;
+$lamanu-ees-color: #e10098;
+$lamanu-fpro-color: #00cfb4;
+$lamanu-primarylight-color: lighten($lamanu-primary-color, 15%);
+$lamanu-primary-font: "dico-code-one", mono;
+$lamanu-secondary-font: "bebas-neue-pro", sans-serif;
+$white: #fff;
+$black: #000;
+
+// -------------------------------------------------------------------------------------------
+// Mixins
+// -------------------------------------------------------------------------------------------
+
+@mixin centereverything {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+// -------------------------------------------------------------------------------------------
+// Général
+// -------------------------------------------------------------------------------------------
+
+a {
+    color: currentColor;
+    cursor: pointer;
+}
+h1 {
+    font-family: $lamanu-secondary-font;
+    font-size: 3em;
+    font-weight: normal;
+    margin-bottom: 1em;
+}
+h2 {
+    font-family: $lamanu-secondary-font;
+    font-size: 1.5em;
+    text-transform: uppercase;
+}
+p{
+    margin-bottom: 1em;
+}
+.mb {
+    margin-bottom: 1em;
+}
+.mauto {
+    margin-left: auto;
+    margin-right: auto;
+}
+.text-center {
+    text-align: center;
+}
+.btn {
+    background: $white;
+    box-shadow: 0 0.5em 1em darken($lamanu-primary-color, 10%);
+    display: inline-block;
+    color: $lamanu-primary-color;
+    padding: 1em 1.5em;
+    text-decoration: none;
+    transition: all 200ms ease-in-out;
+
+    &:hover {
+        background: $lamanu-ees-color;
+        color: $white;
+    }
+}
+
+// -------------------------------------------------------------------------------------------
+// layout
+// -------------------------------------------------------------------------------------------
+
+.site-wrapper {
+    background-color: $lamanu-primary-color;
+    color: $white;
+    display: grid;
+    grid-template-rows: 50px 1fr 50px;
+    font-family: $lamanu-primary-font;
+    min-height: 100vh;
+}
+.site-header {
+    & > nav {
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+}
+.site-content {
+    width: 80vw;
+    line-height: 1.5em;
+    margin: 5em auto 0;
+}
+.site-footer {
+    @include centereverything;
+    font-size: 0.75em;
+    padding-top: 20px;
+}
+
+// -------------------------------------------------------------------------------------------
+// Conteneur vidéo
+// -------------------------------------------------------------------------------------------
+
+.video-wrapper {
+    position: relative;
+    background-color: $black;
+    display: inline-block;
+    margin: 0 auto 1em;
+    text-align: center;
+
+    video {
+        display: inline-block;
+    }
+}
+
+.emoticon-wrapper {
+    @include centereverything;
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: $white;
+    z-index: 1;
+}
+
+// -------------------------------------------------------------------------------------------
+// Résultats
+// -------------------------------------------------------------------------------------------
+
+.session-results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    &-overview {
+        background: darken($lamanu-primary-color, 10%);
+        margin-bottom: 2em;
+        padding: 1em;
+    }
+}
+.result-item {
+    width: 30%;
+    margin: 0 0 2em;
+}
+.data-resume {
+    border: 1px solid lighten($lamanu-primary-color, 20%);
+    list-style: decimal inside;
+    margin-top: 0.5em;
+    padding: 1rem;
+
+    li {
+        display: flex;
+        width: 100%;
+        align-items: center;
+
+        span {
+            display: inline-block;
+            white-space: nowrap;
+        }
+    }
+
+    progress {
+        width: 90%;
+        border-radius: 4px; 
+        height: 8px;
+        margin-left: 0.5em;
+      }
+      progress::-webkit-progress-bar {
+        background-color: lighten($lamanu-primary-color, 10%);
+        border-radius: 4px;
+      }
+      progress::-webkit-progress-value {
+        background-color: $lamanu-ees-color;
+        border-radius: 4px;
+      }
+}
