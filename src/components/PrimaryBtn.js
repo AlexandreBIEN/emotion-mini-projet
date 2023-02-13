@@ -1,10 +1,9 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function PrimaryBtn() {
+export default function PrimaryBtn(props) {
   return (
-    <View>
-      <Text>PrimaryBtn</Text>
-    </View>
+    <p className="text-center">
+        <a className="btn" href={props.link}>{props.text}</a>
+    </p>
   )
 }
