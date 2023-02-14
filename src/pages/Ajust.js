@@ -20,14 +20,17 @@ export default function Ajust() {
         startVideo();
       }, []);
 
+    /**
+     * Fonction qui charge les modèles puis lance la détection
+     */
     const loadModels = () => {
-       Promise.all([
+        Promise.all([
             faceapi.loadSsdMobilenetv1Model('/models'),
             faceapi.loadFaceLandmarkModel('/models'),
             faceapi.loadFaceExpressionModel('/models'),
-       ]).then(() => {
-        faceDetection();
-       })
+        ]).then(() => {
+            faceDetection();
+        })
     };
 
     /**
@@ -42,6 +45,7 @@ export default function Ajust() {
         });
     }
 
+    // Emojis des différents status
     let statusIcons = {
         default: '😶',
         neutral: '😶',
@@ -51,7 +55,7 @@ export default function Ajust() {
         fearful: '😨',
         disgusted: '🤢',
         surprised: '😳'
-      }
+    }
 
     /**
      * Fonction qui lance la détection du visage et affiche les résultats
@@ -59,39 +63,40 @@ export default function Ajust() {
     const faceDetection = async () => {
         // S'exécute toute les x secondes.
         setInterval(async() => {
-        const detections = await faceapi.detectAllFaces(videoRef.current, new faceapi.SsdMobilenetv1Options()).withFaceLandmarks().withFaceExpressions();
-        canvasRef.current.innerHtml = faceapi.createCanvasFromMedia(videoRef.current);
-        
-        // Choisi le bon emoji pour l'expression
-        if (detections.length > 0) {
-            detections.map((element) => {
-                let status = "";
-                let valueStatus = 0.0;
-                for (const [key, value] of Object.entries(element.expressions)) {
-                  if (value > valueStatus) {
-                    status = key
-                    valueStatus = value;
-                  }
-                }
-                setStatus(statusIcons[status]);
-            });
-          } else {
-            setStatus(statusIcons["default"]);
-          }
+            const detections = await faceapi.detectAllFaces(videoRef.current, new faceapi.SsdMobilenetv1Options()).withFaceLandmarks().withFaceExpressions();
+            canvasRef.current.innerHtml = faceapi.createCanvasFromMedia(videoRef.current);
+            
+            // Choisi le bon emoji pour l'expression
+            if (detections.length > 0) {
+                detections.map((element) => {
+                    let status = "";
+                    let valueStatus = 0.0;
+                    for (const [key, value] of Object.entries(element.expressions)) {
+                    // Si la valeur de l'expression est supérieur à la précédente
+                      if (value > valueStatus) {
+                        status = key
+                        valueStatus = value;
+                      }
+                    }
+                    setStatus(statusIcons[status]);
+                });
+              } else {
+                setStatus(statusIcons["default"]);
+              }
 
-        // Modification des dimensions
-        faceapi.matchDimensions(canvasRef.current, {
-            width: 600,
-            height: 300,
-        })
-        const resized = faceapi.resizeResults(detections, {
-            width: 600,
-            height: 300,
-        });
-        // affiche boite de détection de visage
-        faceapi.draw.drawDetections(canvasRef.current, resized);
-        // analyse et affiche en sortie l'expression du visage
-        faceapi.draw.drawFaceExpressions(canvasRef.current, resized);
+            // Modification des dimensions
+            faceapi.matchDimensions(canvasRef.current, {
+                width: 600,
+                height: 300,
+            })
+            const resized = faceapi.resizeResults(detections, {
+                width: 600,
+                height: 300,
+            });
+            // affiche boite de détection de visage
+            faceapi.draw.drawDetections(canvasRef.current, resized);
+            // analyse et affiche en sortie l'expression du visage
+            faceapi.draw.drawFaceExpressions(canvasRef.current, resized);
         }, 1000)
     }
   return (

@@ -212,8 +212,11 @@ p {
 
 .app__canvas {
   position: absolute;
-  /* top: 100px; */
   left: 0%;
   width: 640px;
   height: 480px;
+}
+
+.d-none {
+  display: none;
 }
