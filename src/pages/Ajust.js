@@ -1,47 +1,85 @@
-// import { FaceDetection, FaceExpressionNet, FaceLandmark68Net, FaceRecognitionNet, tinyFaceDetector } from 'face-api.js';
 import * as faceapi from 'face-api.js';
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import PrimaryBtn from '../components/PrimaryBtn';
 
 export default function Ajust() {
 
+    // webcam
     const videoRef = useRef();
+
+    // Résultat
     const canvasRef = useRef();
 
-    useEffect(() => {
-        startVideo();
+    const[status, setStatus] = useState();
 
-        videoRef && loadModels();
+    // lance les 2 fontions quand la page se charge
+    useEffect(() => {
+        loadModels();
+        startVideo();
       }, []);
 
     const loadModels = () => {
        Promise.all([
-            faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
-            faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
-            faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
-            faceapi.nets.faceExpressionNet.loadFromUri('/models'),
+            faceapi.loadSsdMobilenetv1Model('/models'),
+            faceapi.loadFaceLandmarkModel('/models'),
+            faceapi.loadFaceExpressionModel('/models'),
        ]).then(() => {
         faceDetection();
        })
     };
+
+    /**
+     * Fonction qui démarre la webcam
+     */
     const startVideo = () => {
         navigator.mediaDevices.getUserMedia({ video: true    })
         .then((currentStream) => {
-                videoRef.current.srcObject = currentStream;
-             }).catch((err) => {
-                console.error(err)
+            videoRef.current.srcObject = currentStream;
+        }).catch((err) => {
+            console.error(err)
         });
-     }
+    }
 
+    let statusIcons = {
+        default: '😶',
+        neutral: '😶',
+        happy: '😀',
+        sad: '😢',
+        angry: '🤬',
+        fearful: '😨',
+        disgusted: '🤢',
+        surprised: '😳'
+      }
+
+    /**
+     * Fonction qui lance la détection du visage et affiche les résultats
+     */
     const faceDetection = async () => {
+        // S'exécute toute les x secondes.
         setInterval(async() => {
-          const detections = await faceapi.detectAllFaces
-               (videoRef.current, new faceapi.TinyFaceDetectorOptions())
-               .withFaceLandmarks().withFaceExpressions();
-        canvasRef.current.innerHtml = faceapi.
-             createCanvasFromMedia(videoRef.current);
+        const detections = await faceapi.detectAllFaces(videoRef.current, new faceapi.SsdMobilenetv1Options()).withFaceLandmarks().withFaceExpressions();
+        canvasRef.current.innerHtml = faceapi.createCanvasFromMedia(videoRef.current);
+        
+        // Choisi le bon emoji pour l'expression
+        if (detections.length > 0) {
+            detections.map((element) => {
+                let status = "";
+                let valueStatus = 0.0;
+                for (const [key, value] of Object.entries(element.expressions)) {
+                  if (value > valueStatus) {
+                    status = key
+                    valueStatus = value;
+                  }
+                }
+                setStatus(statusIcons[status]);
+            });
+          } else {
+            setStatus(statusIcons["default"]);
+          }
+
+        // Modification des dimensions
         faceapi.matchDimensions(canvasRef.current, {
             width: 600,
             height: 300,
@@ -50,9 +88,9 @@ export default function Ajust() {
             width: 600,
             height: 300,
         });
-        // to draw the detection onto the detected face i.e the box
+        // affiche boite de détection de visage
         faceapi.draw.drawDetections(canvasRef.current, resized);
-        // to analyze and output the current expression by the detected face
+        // analyse et affiche en sortie l'expression du visage
         faceapi.draw.drawFaceExpressions(canvasRef.current, resized);
         }, 1000)
     }
@@ -66,7 +104,7 @@ export default function Ajust() {
             <div className="text-center">
                 <div className="video-wrapper">
                     <div className="emoticon-wrapper">
-                        &#128512;
+                        {status}
                     </div>
                     <video className='webcam' crossOrigin='anonymous' ref={videoRef} autoPlay></video>
                     <canvas ref={canvasRef} className='app__canvas webcam'/>
