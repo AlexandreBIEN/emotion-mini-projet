@@ -80,9 +80,9 @@ export default function Ajust() {
                     }
                     setStatus(statusIcons[status]);
                 });
-              } else {
+            } else {
                 setStatus(statusIcons["default"]);
-              }
+            }
 
             // Modification des dimensions
             faceapi.matchDimensions(canvasRef.current, {
