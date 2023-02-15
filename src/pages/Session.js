@@ -123,6 +123,7 @@ export default function Session() {
             emotionName1: emotionName1,
             emotionValue1: emotionValue1
           });
+        //   Arrête l'utilisation de la webcam
           videoRef.current.srcObject.getTracks()[0].stop();
         //   On redirige vers la page suivante
           navigate('/session-end', { replace: true });
