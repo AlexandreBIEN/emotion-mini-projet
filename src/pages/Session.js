@@ -1,10 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import db from '../Config';
 import * as faceapi from 'face-api.js';
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import PrimaryBtn from '../components/PrimaryBtn';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export default function Session() {
+
+    const navigate = useNavigate();
 
     // webcam
     const videoRef = useRef();
@@ -12,6 +17,19 @@ export default function Session() {
     const canvasRef = useRef();
     // contient emoji correspondant à l'expression
     const[status, setStatus] = useState();
+
+    // Titre du film
+    const[filmTitle, setFilmTitle] = useState('Extrait : Alien, le huitième passager');
+
+    // nom du status
+    const[statusName, setStatusName] = useState();
+
+    // valeur du status
+    const[statusValue, setValueStatus] = useState();
+
+
+    let btnNext = document.getElementsByClassName('btnNext');
+    // btnNext.addEventListener('click', () => addFilmInfo(statusName, statusValue));
 
     // lance les 2 fontions quand la page se charge
     useEffect(() => {
@@ -74,6 +92,9 @@ export default function Session() {
                       if (value > valueStatus) {
                         status = key
                         valueStatus = value;
+
+                        setStatusName(key);
+                        setValueStatus(value);
                       }
                     }
                     setStatus(statusIcons[status]);
@@ -83,12 +104,31 @@ export default function Session() {
             }
         }, 1000)
     }
+
+
+    /**
+     * Fonction qui ajoute les donnée dans la bdd
+     */
+    const changeFilmInfo = async (emotionName1, emotionValue1, filmTitle) => { 
+        try {
+          const docRef = await setDoc(doc(db, 'filmInfo', filmTitle), {
+            title: filmTitle,
+            emotionName1: emotionName1,
+            emotionValue1: emotionValue1
+          });
+        //   On redirige vers la page suivante
+          navigate('/session-end', { replace: true });
+        } catch (e) {
+          console.error("Error adding document: ", e);
+        }
+    }
+
   return (
     <div className='site-wrapper'>
         <Header />
         <main className="site-content">
             <div className="intro">
-                <h1>Extrait : Alien, le huitième passager</h1>
+                <h1>{filmTitle}</h1>
                 <div className="text-center">
                     <div className="video-wrapper">
                         <div className="emoticon-wrapper">
@@ -103,7 +143,9 @@ export default function Session() {
                         </div>
                     </div>
                 </div>
-                <PrimaryBtn text="Suite du parcours" link="/session-end"/>
+                <div className='btnNext' onClick={() => {changeFilmInfo(statusName, statusValue, filmTitle)}}>
+                    <PrimaryBtn text="Suite du parcours" link="#" />
+                </div>
             </div>
         </main>
         <Footer />
