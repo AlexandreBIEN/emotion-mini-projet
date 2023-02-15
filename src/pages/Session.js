@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 import db from '../Config';
 import * as faceapi from 'face-api.js';
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import PrimaryBtn from '../components/PrimaryBtn';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function Session() {
 
@@ -27,9 +27,6 @@ export default function Session() {
     // valeur du status
     const[statusValue, setValueStatus] = useState();
 
-
-    let btnNext = document.getElementsByClassName('btnNext');
-    // btnNext.addEventListener('click', () => addFilmInfo(statusName, statusValue));
 
     // lance les 2 fontions quand la page se charge
     useEffect(() => {

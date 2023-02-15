@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import db from '../Config';
-import { collection, doc, getDoc, getDocs, query } from "firebase/firestore"; 
+import { doc, getDoc } from "firebase/firestore"; 
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import PrimaryBtn from '../components/PrimaryBtn';
@@ -62,7 +62,7 @@ export default function SessionEnd() {
             <h1>Bilan de la session</h1>
             <p className="session-results-overview text-center">Sur l'ensemble des extraits, voici les émotions que l'AI a
                 détecté :<br/>
-                &#128552; : 8'25" / &#128533; : 4'48" / &#128512; : 2'12"
+                {getEmojiWithExpressionName(expressionName)} : 8'25" / &#128533; : 4'48" / &#128512; : 2'12"
             </p>
             <div className="session-results mb">
                 {/* Cartes des résultats par film */}
