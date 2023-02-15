@@ -12,8 +12,8 @@ function App() {
       <Routes>
         <Route path='*' element={<Home />}/>
         <Route path='/home' element={<Home />}/>
-        <Route path='/session' element={<Session />}/>
         <Route path='/ajust-webcam' element={<Ajust />}/>
+        <Route path='/session' element={<Session />}/>
         <Route path='/session-end' element={<SessionEnd />}/>
         <Route path='/data' element={<Data />}/>
       </Routes>

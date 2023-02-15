@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import db from '../Config';
-import { collection, doc, getDoc, getDocs } from "firebase/firestore"; 
+import { collection, doc, getDoc, getDocs, query } from "firebase/firestore"; 
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import PrimaryBtn from '../components/PrimaryBtn';
@@ -20,15 +20,15 @@ export default function SessionEnd() {
         getDocs();
       }, []);
 
+    /**
+     * Fonction qui récupère les informations du document rechercher
+     */
     const getDocs = async () => {
         try {
             const querySnapshot = await getDoc(doc(db, "filmInfo", "Extrait : Alien, le huitième passager"));
             setFilmTitle(querySnapshot['_document']['data']['value']['mapValue']['fields']['title']['stringValue']);
             setExpressionName(querySnapshot['_document']['data']['value']['mapValue']['fields']['emotionName1']['stringValue']);
             setExpressionValue( querySnapshot['_document']['data']['value']['mapValue']['fields']['emotionValue1']['doubleValue']);
-            // querySnapshot.map((doc) => {
-            //     console.log(`${doc.id} => ${doc.data()}`);
-            // });
         } catch (error) {
             console.log(error);
         }
@@ -46,6 +46,11 @@ export default function SessionEnd() {
         surprised: '😳'
     }
 
+    /**
+     * Fonction qui retourne l'emoji correspondant à l'expression entrée en paramètre
+     * @param {*} expressionName 
+     * @returns 
+     */
     const getEmojiWithExpressionName = (expressionName) => {
         return statusIcons[expressionName];
     }
@@ -60,6 +65,7 @@ export default function SessionEnd() {
                 &#128552; : 8'25" / &#128533; : 4'48" / &#128512; : 2'12"
             </p>
             <div className="session-results mb">
+                {/* Cartes des résultats par film */}
                 <ResultCard title={filmTitle} expressionValue={expressionValue} emoji={getEmojiWithExpressionName(expressionName)}/>
                 <ResultCard title={filmTitle} expressionValue={expressionValue} emoji={getEmojiWithExpressionName(expressionName)}/>
                 <ResultCard title={filmTitle} expressionValue={expressionValue} emoji={getEmojiWithExpressionName(expressionName)}/>
