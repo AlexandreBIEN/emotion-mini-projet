@@ -29,10 +29,20 @@ export default function Session() {
 
 
     // lance les 2 fontions quand la page se charge
-    useEffect(() => {
+    // useEffect(() => {
+    //     loadModels();
+    //     startVideo();
+    //   }, []);
+
+
+    /**
+     * Fonction qui lance la détection d'expression
+     */
+    const handlePlay = () => {
         loadModels();
         startVideo();
-      }, []);
+    }
+    
 
     /**
      * Fonction qui charge les modèles puis lance la détection
@@ -51,7 +61,7 @@ export default function Session() {
      * Fonction qui démarre la webcam
      */
     const startVideo = () => {
-        navigator.mediaDevices.getUserMedia({ video: true    })
+        navigator.mediaDevices.getUserMedia({ video: true })
         .then((currentStream) => {
             videoRef.current.srcObject = currentStream;
         }).catch((err) => {
@@ -131,7 +141,7 @@ export default function Session() {
                         <div className="emoticon-wrapper">
                             {status}
                         </div>
-                        <video autoPlay controls>
+                        <video autoPlay controls onPlay={() => {handlePlay()}}>
                             <source src="./video/alien.mp4" type="video/mp4"/>
                         </video>
                         <div className='d-none'>
